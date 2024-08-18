@@ -15,6 +15,11 @@ class ShowThemeSerializer(serializers.ModelSerializer):
 
 
 class AstronomyShowSerializer(serializers.ModelSerializer):
+    description = serializers.CharField(
+        source="show_theme.description",
+        read_only=True
+    )
+
     class Meta:
         model = AstronomyShow
         fields = ("id", "title", "description")
