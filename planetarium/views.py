@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from rest_framework.viewsets import GenericViewSet
+from rest_framework import viewsets
 
 from planetarium.models import (
     ShowTheme,
@@ -15,21 +15,21 @@ from planetarium.serializers import (
 )
 
 
-class ShowThemeViewSet(GenericViewSet):
+class ShowThemeViewSet(viewsets.ModelViewSet):
     queryset = ShowTheme.objects.all()
     serializer_class = ShowThemeSerializer
 
 
-class AstronomyShowViewSet(GenericViewSet):
+class AstronomyShowViewSet(viewsets.ModelViewSet):
     queryset = AstronomyShow.objects.all()
     serializer_class = AstronomyShowSerializer
 
 
-class PlanetariumDomeViewSet(GenericViewSet):
+class PlanetariumDomeViewSet(viewsets.ModelViewSet):
     queryset = PlanetariumDome.objects.all()
     serializer_class = PlanetariumDomeSerializer
 
 
-class ShowSessionViewSet(GenericViewSet):
+class ShowSessionViewSet(viewsets.ModelViewSet):
     queryset = ShowSession.objects.all()
     serializer_class = ShowSessionSerializer
