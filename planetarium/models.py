@@ -107,6 +107,6 @@ class Ticket(models.Model):
         return f"{str(self.show_session)} ({self.row}, {self.seat})"
 
     class Meta:
-        unique_together = ("movie_session", "row", "seat")
+        unique_together = ("show_session", "row", "seat")
         ordering = ["row", "seat"]
 
