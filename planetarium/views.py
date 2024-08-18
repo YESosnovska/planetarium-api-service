@@ -21,7 +21,7 @@ class ShowThemeViewSet(viewsets.ModelViewSet):
 
 
 class AstronomyShowViewSet(viewsets.ModelViewSet):
-    queryset = AstronomyShow.objects.all()
+    queryset = AstronomyShow.objects.prefetch_related("astronomy_shows")
     serializer_class = AstronomyShowSerializer
 
 
@@ -31,5 +31,5 @@ class PlanetariumDomeViewSet(viewsets.ModelViewSet):
 
 
 class ShowSessionViewSet(viewsets.ModelViewSet):
-    queryset = ShowSession.objects.all()
+    queryset = ShowSession.objects.prefetch_related("astronomy_show", "planetarium_dome")
     serializer_class = ShowSessionSerializer
