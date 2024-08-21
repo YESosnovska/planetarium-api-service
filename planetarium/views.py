@@ -16,12 +16,12 @@ from planetarium.serializers import (
 
 
 class ShowThemeViewSet(viewsets.ModelViewSet):
-    queryset = ShowTheme.objects.all()
+    queryset = ShowTheme.objects.prefetch_related("astronomy_shows")
     serializer_class = ShowThemeSerializer
 
 
 class AstronomyShowViewSet(viewsets.ModelViewSet):
-    queryset = AstronomyShow.objects.prefetch_related("astronomy_shows")
+    queryset = AstronomyShow.objects.prefetch_related("show_themes")
     serializer_class = AstronomyShowSerializer
 
 

@@ -11,18 +11,13 @@ from planetarium.models import (
 class ShowThemeSerializer(serializers.ModelSerializer):
     class Meta:
         model = ShowTheme
-        fields = ("id", "name")
+        fields = ("id", "name", "shows")
 
 
 class AstronomyShowSerializer(serializers.ModelSerializer):
-    description = serializers.CharField(
-        source="show_theme.description",
-        read_only=True
-    )
-
     class Meta:
         model = AstronomyShow
-        fields = ("id", "title", "description")
+        fields = ("id", "title", "description", "show_themes")
 
 
 class PlanetariumDomeSerializer(serializers.ModelSerializer):

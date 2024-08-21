@@ -6,6 +6,10 @@ from planetarium_service import settings
 
 class ShowTheme(models.Model):
     name = models.CharField(max_length=255)
+    shows = models.ManyToManyField(
+        "AstronomyShow",
+        related_name="themes"
+    )
 
     def __str__(self):
         return self.name
@@ -13,7 +17,15 @@ class ShowTheme(models.Model):
 
 class AstronomyShow(models.Model):
     title = models.CharField(max_length=255)
-    description = models.ManyToManyField(ShowTheme, related_name="astronomy_shows")
+    description = models.TextField(
+        null=False,
+        blank=False,
+        default="add description"
+    )
+    show_themes = models.ManyToManyField(
+        ShowTheme,
+        related_name="astronomy_shows"
+    )
 
     def __str__(self):
         return f"{self.title}, description: {self.description}"
