@@ -34,6 +34,34 @@ class AstronomyShowSerializer(serializers.ModelSerializer):
         fields = ("id", "title", "description", "show_themes")
 
 
+class AstronomyShowListSerializer(serializers.ModelSerializer):
+    themes = serializers.SlugRelatedField(
+        many=True, read_only=True, slug_field="name"
+    )
+
+    class Meta:
+        model = AstronomyShow
+        fields = (
+            "id",
+            "title",
+            "description",
+            "themes",
+        )
+
+
+class AstronomyShowDetailSerializer(serializers.ModelSerializer):
+    themes = ShowThemeSerializer(many=True, read_only=True)
+
+    class Meta:
+        model = AstronomyShow
+        fields = (
+            "id",
+            "title",
+            "description",
+            "themes"
+        )
+
+
 class ShowThemeDetailSerializer(serializers.ModelSerializer):
     shows = AstronomyShowSerializer(many=True, read_only=True)
 
