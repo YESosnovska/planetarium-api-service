@@ -1,19 +1,22 @@
 from django.db.models import F, Count
 from django.shortcuts import render
 from rest_framework import viewsets
+from rest_framework.pagination import PageNumberPagination
+from rest_framework.permissions import IsAuthenticated
 
 from planetarium.models import (
     ShowTheme,
     AstronomyShow,
     PlanetariumDome,
-    ShowSession
+    ShowSession, Reservation
 )
 from planetarium.serializers import (
     ShowThemeSerializer,
     AstronomyShowSerializer,
     PlanetariumDomeSerializer,
     ShowSessionSerializer, ShowThemeListSerializer, ShowThemeDetailSerializer, AstronomyShowListSerializer,
-    AstronomyShowDetailSerializer, ShowSessionListSerializer, ShowSessionDetailSerializer
+    AstronomyShowDetailSerializer, ShowSessionListSerializer, ShowSessionDetailSerializer, ReservationSerializer,
+    ReservationListSerializer
 )
 
 
@@ -71,3 +74,28 @@ class ShowSessionViewSet(viewsets.ModelViewSet):
             return ShowSessionDetailSerializer
 
         return ShowSessionSerializer
+
+
+class ReservationPagination(PageNumberPagination):
+    page_size = 10
+    max_page_size = 100
+
+
+class ReservationViewSet(viewsets.ModelViewSet):
+    queryset = Reservation.objects.all()
+    serializer_class = ReservationSerializer
+    pagination_class = ReservationPagination
+    permission_classes = (IsAuthenticated,)
+
+    def get_queryset(self):
+        return Reservation.objects.filter(user=self.request.user)
+
+    def get_serializer_class(self):
+        if self.action == "list":
+            return ReservationListSerializer
+
+        return ReservationSerializer
+
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
+
