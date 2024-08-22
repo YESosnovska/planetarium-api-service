@@ -1,10 +1,11 @@
 from rest_framework import serializers
+from rest_framework.exceptions import ValidationError
 
 from planetarium.models import (
     ShowTheme,
     AstronomyShow,
     ShowSession,
-    PlanetariumDome
+    PlanetariumDome, Ticket
 )
 
 
@@ -102,6 +103,7 @@ class ShowSessionListSerializer(serializers.ModelSerializer):
     planetarium_dome = serializers.SlugRelatedField(
         many=False, read_only=True, slug_field="name"
     )
+    tickets_available = serializers.IntegerField(read_only=True)
 
     class Meta:
         model = ShowSession
@@ -109,13 +111,43 @@ class ShowSessionListSerializer(serializers.ModelSerializer):
             "id",
             "astronomy_show",
             "planetarium_dome",
-            "show_time"
+            "show_time",
+            "tickets_available",
         )
+
+
+class TicketSerializer(serializers.ModelSerializer):
+    def validate(self, attrs):
+        data = super(TicketSerializer, self).validate(attrs=attrs)
+        Ticket.validate_ticket(
+            attrs["row"],
+            attrs["seat"],
+            attrs["show_session"].planetarium_dome,
+            ValidationError
+        )
+        return data
+
+    class Meta:
+        model = Ticket
+        fields = ("id", "row", "seat", "show_session")
+
+
+class TicketListSerializer(TicketSerializer):
+    movie_session = ShowSessionListSerializer(many=False, read_only=True)
+
+
+class TicketSeatsSerializer(TicketSerializer):
+    class Meta:
+        model = Ticket
+        fields = ("row", "seat")
 
 
 class ShowSessionDetailSerializer(serializers.ModelSerializer):
     astronomy_show = AstronomyShowListSerializer(many=False, read_only=True)
     planetarium_dome = PlanetariumDomeSerializer(many=False, read_only=True)
+    taken_places = TicketSeatsSerializer(
+        source="tickets", many=True, read_only=True
+    )
 
     class Meta:
         model = ShowSession
@@ -123,5 +155,6 @@ class ShowSessionDetailSerializer(serializers.ModelSerializer):
             "id",
             "astronomy_show",
             "planetarium_dome",
-            "show_time"
+            "show_time",
+            "taken_places",
         )
