@@ -93,3 +93,35 @@ class ShowSessionSerializer(serializers.ModelSerializer):
     class Meta:
         model = ShowSession
         fields = ("id", "astronomy_show", "planetarium_dome", "show_time")
+
+
+class ShowSessionListSerializer(serializers.ModelSerializer):
+    astronomy_show = serializers.SlugRelatedField(
+        many=False, read_only=True, slug_field="title"
+    )
+    planetarium_dome = serializers.SlugRelatedField(
+        many=False, read_only=True, slug_field="name"
+    )
+
+    class Meta:
+        model = ShowSession
+        fields = (
+            "id",
+            "astronomy_show",
+            "planetarium_dome",
+            "show_time"
+        )
+
+
+class ShowSessionDetailSerializer(serializers.ModelSerializer):
+    astronomy_show = AstronomyShowListSerializer(many=False, read_only=True)
+    planetarium_dome = PlanetariumDomeSerializer(many=False, read_only=True)
+
+    class Meta:
+        model = ShowSession
+        fields = (
+            "id",
+            "astronomy_show",
+            "planetarium_dome",
+            "show_time"
+        )
