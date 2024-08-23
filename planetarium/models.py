@@ -6,10 +6,6 @@ from planetarium_service import settings
 
 class ShowTheme(models.Model):
     name = models.CharField(max_length=255)
-    shows = models.ManyToManyField(
-        "AstronomyShow",
-        related_name="themes"
-    )
 
     def __str__(self):
         return self.name
