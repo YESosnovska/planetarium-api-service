@@ -86,7 +86,7 @@ class ShowSessionViewSet(viewsets.ModelViewSet):
         if astronomy_show_id_str:
             queryset = queryset.filter(astronomy_show__id=int(astronomy_show_id_str))
 
-        return queryset
+        return queryset.distinct()
 
     def get_serializer_class(self):
         if self.action == "list":
