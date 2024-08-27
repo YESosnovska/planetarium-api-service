@@ -52,6 +52,26 @@ class AstronomyShowViewSet(viewsets.ModelViewSet):
 
         return AstronomyShowSerializer
 
+    @staticmethod
+    def _params_to_ints(qs):
+        """Converts a list of string IDs to a list of integers"""
+        return [int(str_id) for str_id in qs.split(",")]
+
+    def get_queryset(self):
+        title = self.request.query_params.get("title")
+        show_themes = self.request.query_params.get("show_themes")
+
+        queryset = self.queryset
+
+        if title:
+            queryset = queryset.filter(title__icontains=title)
+
+        if show_themes:
+            show_theme_ids = self._params_to_ints(show_themes)
+            queryset = queryset.filter(show_themes__id__in=show_theme_ids)
+
+        return queryset.distinct()
+
 
 class PlanetariumDomeViewSet(viewsets.ModelViewSet):
     queryset = PlanetariumDome.objects.all()
