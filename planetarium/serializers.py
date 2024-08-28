@@ -133,7 +133,7 @@ class TicketSerializer(serializers.ModelSerializer):
 
 
 class TicketListSerializer(TicketSerializer):
-    movie_session = ShowSessionListSerializer(many=False, read_only=True)
+    show_session = ShowSessionListSerializer(many=False, read_only=True)
 
 
 class TicketSeatsSerializer(TicketSerializer):
@@ -165,7 +165,7 @@ class ReservationSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Reservation
-        fields = ("id", "created_at", "user")
+        fields = ("id", "created_at", "user", "tickets")
 
     def create(self, validated_data):
         with transaction.atomic():
