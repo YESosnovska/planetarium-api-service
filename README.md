@@ -30,3 +30,15 @@ docker-compose up
 
 - create user via /api/user/register/
 - get access token via /api/user/token/
+
+
+## Features 
+
+- JWT authenticated
+- Admin panel /admin/
+- Documentation is located at /api/doc/swagger/
+- Managing reservations and tickets
+- Creating astronomy shows with themes, description
+- Creating planetarium domes
+- Adding Show Sessions
+- Filtering astronomy shows and show sessions
