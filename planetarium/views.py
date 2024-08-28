@@ -92,8 +92,8 @@ class AstronomyShowViewSet(
         permission_classes=[IsAdminUser],
     )
     def upload_image(self, request, pk=None):
-        movie = self.get_object()
-        serializer = self.get_serializer(movie, data=request.data)
+        astronomy_show = self.get_object()
+        serializer = self.get_serializer(astronomy_show, data=request.data)
 
         if serializer.is_valid():
             serializer.save()
