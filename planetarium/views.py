@@ -22,7 +22,7 @@ from planetarium.serializers import (
     PlanetariumDomeSerializer,
     ShowSessionSerializer, ShowThemeListSerializer, ShowThemeDetailSerializer, AstronomyShowListSerializer,
     AstronomyShowDetailSerializer, ShowSessionListSerializer, ShowSessionDetailSerializer, ReservationSerializer,
-    ReservationListSerializer
+    ReservationListSerializer, AstronomyShowImageSerializer
 )
 
 
@@ -60,6 +60,9 @@ class AstronomyShowViewSet(
 
         if self.action == "retrieve":
             return AstronomyShowDetailSerializer
+
+        if self.action == "upload_image":
+            return AstronomyShowImageSerializer
 
         return AstronomyShowSerializer
 
