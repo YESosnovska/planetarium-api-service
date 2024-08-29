@@ -50,6 +50,8 @@ class ShowThemeViewSet(
 class AstronomyShowViewSet(
     mixins.CreateModelMixin,
     mixins.ListModelMixin,
+    mixins.RetrieveModelMixin,
+    mixins.UpdateModelMixin,
     GenericViewSet,
 ):
     queryset = AstronomyShow.objects.prefetch_related("show_themes")
