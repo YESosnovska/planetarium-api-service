@@ -31,7 +31,8 @@ class AstronomyShow(models.Model):
     )
     show_themes = models.ManyToManyField(
         ShowTheme,
-        related_name="astronomy_shows"
+        related_name="astronomy_shows",
+        blank=True
     )
     image = models.ImageField(null=True, upload_to=astronomy_show_image_file_path)
 
